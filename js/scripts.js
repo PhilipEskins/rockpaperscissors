@@ -5,19 +5,70 @@ function playTime() {
   score ++;
 }
 
-function optionPick(option) {
-  if (option==="Rock" ) {
-    alert("Paper");
-    win++;
+function choose() {
+  var choice = Math.floor(Math.random() * 3);
+  var move;
+  if (choice === 0) {
+    move = "Scissor";
+  } else if (choice === 1) {
+    move = "Rock";
+  } else if (choice === 2) {
+    move = "Paper";
   }
-  if (option==="Scissor") {
-    alert("Rock");
-    win++;
-  }
-  if (option==="Paper") {
-    alert("Scissor")
-    win++;
-  }
+  return move;
+}
+
+function compareResults(computerMove, playerMove){
+
+  if (computerMove === "Scissor" && playerMove === "Rock") {
+    $(".playResults").text("Player Wins!");
+    win++;}
+  if (computerMove === "Scissor" && playerMove === "Paper") {
+    $(".playResults").text("Computer Wins!"); }
+
+  if (computerMove === "Paper" && playerMove === "Rock") {
+    $(".playResults").text("Computer Wins!"); }
+
+  if (computerMove === "Paper" && playerMove === "Scissor") {
+    $(".playResults").text("Player Wins");
+    win++;}
+
+  if (computerMove === "Rock" && playerMove === "Scissor") {
+    $(".playResults").text("Computer Wins!"); }
+
+  if (computerMove === "Rock" && playerMove === "Paper") {
+    $(".playResults").text("Player Wins");
+    win++;}
+
+  if (computerMove===playerMove) {
+    $(".playResults").text("It's a tie!");}
+
+  // if (playerMove ==="Rock") {
+  //   playValue = 1;
+  //   } else if (playerMove ==="Scissor") {
+  //   playValue = 2;
+  //   } else if (playerMove === "Paper") {
+  //   playValue = 3;
+  //   }
+  //
+  // if (computerMove === "Rock") {
+  //   cpuValue = 1;
+  //   } else if (computerMove === "Scissor") {
+  //   cpuValue = 2;
+  //   }
+  //   else if (computerMove === "Paper") {
+  //   cpuValue = 3;
+  //   }
+  //
+  // if (playValue === cpuValue) {
+  //   $(".playResults").text("Its a tie!");
+  // }
+  // else if (playValue > cpuValue) {
+  //   $(".playResults").text("Player wins");
+  // }
+  // else if (cpuValue > playValue) {
+  //   $(".playResults").text("Computer wins");
+  // }
 }
 
 $(document).ready(function() {
@@ -25,11 +76,14 @@ $(document).ready(function() {
   $("#testFunction").submit(function(event) {
     event.preventDefault();
 
-    var gameData = $("input:radio[name=gameData]:checked").val();
+    var playerMove = $("input:radio[name=gameData]:checked").val();
+    var computerMove = choose();
 
-    optionPick(gameData);
+    compareResults(computerMove, playerMove);
     playTime();
-     $(".scoreArea").text("Your playtimes are: " + score);
-     $(".displayArea").text("Your wins are: " + win)
+      $(".scoreArea").text("Your playtimes are: " + score);
+      $(".displayArea").text("Your wins are: " + win)
+      $(".playerSelection").text("You picked: " + playerMove);
+      $(".computerSelection").text("Computer picked: " + computerMove);
   });
 });
