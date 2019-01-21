@@ -1,5 +1,6 @@
 var score = 0;
-var win = 0;
+var playWin = 0;
+var cpuWin = 0;
 
 function playTime() {
   score ++;
@@ -19,80 +20,36 @@ function choose() {
 }
 
 function compareResults(computerMove, playerMove){
+  var result;
 
   if(playerMove === "Rock"){
     if(computerMove === "Paper") {
-      $(".playResults").text("Computer Wins!"); }
-    if(computerMove === "Scissor") {
-      $(".playResults").text("Player Wins!");
-      win++;}
+      result = "computer";
+      cpuWin++; }
+    else if(computerMove === "Scissor") {
+      result = "player";
+      playWin++; }
   }
   if(playerMove === "Paper"){
     if(computerMove === "Scissor") {
-      $(".playResults").text("Computer Wins!"); }
-    if(computerMove === "Rock") {
-      $(".playResults").text("Player Wins!");
-      win++;}
-    }
+      result = "computer";
+      cpuWin++; }
+    else if(computerMove === "Rock") {
+      result = "player";
+      playWin++;}
+  }
   if(playerMove === "Scissor"){
     if(computerMove === "Rock") {
-      $(".playResults").text("Computer Wins!"); }
-    if(computerMove === "Paper") {
-      $(".playResults").text("Player Wins!");
-      win++;}
-    }
+      result = "computer";
+      cpuWin++; }
+    else if(computerMove === "Paper") {
+      result = "player";
+      playWin++;}
+  }
   if(playerMove === computerMove) {
-    $(".playResults").text("It's a tie!");}
+    result = "tie"; }
 
-  // if (computerMove === "Scissor" && playerMove === "Rock") {
-  //   $(".playResults").text("Player Wins!");
-  //   win++;}
-  // if (computerMove === "Scissor" && playerMove === "Paper") {
-  //   $(".playResults").text("Computer Wins!"); }
-  //
-  // if (computerMove === "Paper" && playerMove === "Rock") {
-  //   $(".playResults").text("Computer Wins!"); }
-  //
-  // if (computerMove === "Paper" && playerMove === "Scissor") {
-  //   $(".playResults").text("Player Wins");
-  //   win++;}
-  //
-  // if (computerMove === "Rock" && playerMove === "Scissor") {
-  //   $(".playResults").text("Computer Wins!"); }
-  //
-  // if (computerMove === "Rock" && playerMove === "Paper") {
-  //   $(".playResults").text("Player Wins");
-  //   win++;}
-  //
-  // if (computerMove===playerMove) {
-  //   $(".playResults").text("It's a tie!");}
-
-  // if (playerMove ==="Rock") {
-  //   playValue = 1;
-  //   } else if (playerMove ==="Scissor") {
-  //   playValue = 2;
-  //   } else if (playerMove === "Paper") {
-  //   playValue = 3;
-  //   }
-  //
-  // if (computerMove === "Rock") {
-  //   cpuValue = 1;
-  //   } else if (computerMove === "Scissor") {
-  //   cpuValue = 2;
-  //   }
-  //   else if (computerMove === "Paper") {
-  //   cpuValue = 3;
-  //   }
-  //
-  // if (playValue === cpuValue) {
-  //   $(".playResults").text("Its a tie!");
-  // }
-  // else if (playValue > cpuValue) {
-  //   $(".playResults").text("Player wins");
-  // }
-  // else if (cpuValue > playValue) {
-  //   $(".playResults").text("Computer wins");
-  // }
+  return result;
 }
 
 $(document).ready(function() {
@@ -102,11 +59,21 @@ $(document).ready(function() {
 
     var playerMove = $("input:radio[name=gameData]:checked").val();
     var computerMove = choose();
+    var result = compareResults(computerMove, playerMove);
 
-    compareResults(computerMove, playerMove);
     playTime();
+
+    if (result === "player") {
+      $(".playResults").text("Player Wins!");
+    } else if (result === "computer") {
+      $(".playResults").text("Computer Wins!");
+    } else if (result === "tie") {
+      $(".playResults").text("It's a tie!");
+    }
+
       $(".scoreArea").text("Your playtimes are: " + score);
-      $(".displayArea").text("Your wins are: " + win)
+      $(".displayArea").text("Your wins are: " + playWin);
+      $(".cpuWins").text("Computer wins are: " + cpuWin);
       $(".playerSelection").text("You picked: " + playerMove);
       $(".computerSelection").text("Computer picked: " + computerMove);
   });
