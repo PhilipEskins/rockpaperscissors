@@ -1,6 +1,7 @@
 var score = 0;
 var playWin = 0;
 var cpuWin = 0;
+var tie = 0;
 
 function playTime() {
   score ++;
@@ -47,7 +48,8 @@ function compareResults(computerMove, playerMove){
       playWin++;}
   }
   if(playerMove === computerMove) {
-    result = "tie"; }
+    result = "tie";
+    tie++; }
 
   return result;
 }
@@ -56,12 +58,15 @@ $(document).ready(function() {
 
   $("#testFunction").submit(function(event) {
     event.preventDefault();
+    playTime();
 
     var playerMove = $("input:radio[name=gameData]:checked").val();
     var computerMove = choose();
     var result = compareResults(computerMove, playerMove);
+    var playerPercent = (playWin/score)*100;
+    var cpuPercent = (cpuWin/score)*100;
+    var tiePercent = (tie/score)*100;
 
-    playTime();
 
     if (result === "player") {
       $(".playResults").text("Player Wins!");
@@ -71,10 +76,13 @@ $(document).ready(function() {
       $(".playResults").text("It's a tie!");
     }
 
-      $(".scoreArea").text("Your playtimes are: " + score);
-      $(".displayArea").text("Your wins are: " + playWin);
-      $(".cpuWins").text("Computer wins are: " + cpuWin);
-      $(".playerSelection").text("You picked: " + playerMove);
-      $(".computerSelection").text("Computer picked: " + computerMove);
+    $(".displayArea").text("Your wins are: " + playWin);
+    $(".playerPercent").text("Your win percentage is: " + playerPercent.toFixed(0) + "%");
+    $(".cpuWins").text("Computer wins are: " + cpuWin);
+    $(".cpuPercent").text("Computer win percentage is: " + cpuPercent.toFixed(0) + "%");
+    $(".tieResults").text("Tie percentage : " + tiePercent.toFixed(0) + "%");
+    $(".scoreArea").text("Your playtimes are: " + score);
+    $(".playerSelection").text("You picked: " + playerMove);
+    $(".computerSelection").text("Computer picked: " + computerMove);
   });
 });
